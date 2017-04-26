@@ -9,14 +9,18 @@ public class TankMovement : MonoBehaviour
     public AudioClip m_EngineIdling;       
     public AudioClip m_EngineDriving;      
     public float m_PitchRange = 0.2f;
+	public float m_JumpPower = 10;
 
     
     private string m_MovementAxisName;     
     private string m_TurnAxisName;         
+	private string m_JumpName;
+
     private Rigidbody m_Rigidbody;         
     private float m_MovementInputValue;    
-    private float m_TurnInputValue;        
-    private float m_OriginalPitch;         
+    private float m_TurnInputValue;   
+    private float m_OriginalPitch;   
+	private bool m_Falling = false;
 
 
     private void Awake()
@@ -43,6 +47,7 @@ public class TankMovement : MonoBehaviour
     {
         m_MovementAxisName = "Vertical" + m_PlayerNumber;
         m_TurnAxisName = "Horizontal" + m_PlayerNumber;
+		m_JumpName = "Jump" + m_PlayerNumber;
 
         m_OriginalPitch = m_MovementAudio.pitch;
     }
@@ -87,6 +92,12 @@ public class TankMovement : MonoBehaviour
     {
         Move();
         Turn();
+		print (m_Falling);
+
+		if (Input.GetButtonDown (m_JumpName) && !m_Falling) {
+			Jump ();
+		}
+		m_Falling = true;
     }
 
 
@@ -106,4 +117,16 @@ public class TankMovement : MonoBehaviour
         Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
         m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
     }
+
+	private void Jump()
+	{
+		m_Rigidbody.velocity = Vector3.up * m_JumpPower;
+
+		print ("Kangaroo yooni");
+	}
+
+	void OnCollisionStay(Collision collisionInfo)
+	{
+		m_Falling = false;
+	}
 }
