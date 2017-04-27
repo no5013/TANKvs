@@ -92,8 +92,6 @@ public class TankMovement : MonoBehaviour
     {
         Move();
         Turn();
-		print (m_Falling);
-
 		if (Input.GetButtonDown (m_JumpName) && !m_Falling) {
 			Jump ();
 		}
