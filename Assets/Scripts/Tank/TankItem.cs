@@ -19,8 +19,8 @@ public class TankItem : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider other) {
-		if (other.gameObject.CompareTag ("Item")){
-			other.gameObject.SetActive (false);
+		other.gameObject.SetActive (false);
+		if (other.gameObject.CompareTag ("RepairPack")){
 			m_TankHealth.Heal (200);
 		}
 	}
